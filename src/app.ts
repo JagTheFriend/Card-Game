@@ -2,7 +2,6 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
-// import helmet from 'helmet';
 import hpp from 'hpp';
 import morgan from 'morgan';
 import swaggerJSDoc from 'swagger-jsdoc';
@@ -12,6 +11,9 @@ import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
 import path from 'path';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+import { handleSocketIo } from './socket';
 
 class App {
   public app: express.Application;
@@ -30,7 +32,14 @@ class App {
   }
 
   public listen() {
-    this.app.listen(this.port, () => {
+    const server = createServer(this.app);
+    const io = new Server(server, {
+      cors: {
+        origin: '*',
+      },
+    });
+    handleSocketIo.SetIo(io);
+    server.listen(this.port, () => {
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
