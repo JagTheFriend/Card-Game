@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <%- include("./_header.ejs") %>
+  <script>
+    TABLE_ID = "<%= tableId %>"
+  </script>
   <script src="/socket.io/socket.io.js" defer></script>
   <script src="/script.js" defer></script>
   <body>
