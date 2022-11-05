@@ -2,7 +2,10 @@ import { Server } from 'socket.io';
 
 function handleSocketIo_(io: Server) {
   io.on('connect', socket => {
-    console.log("Sm1 connected")
+    socket.on('room-join', (tableId, playerName) => {
+      console.log(tableId)
+      console.log(playerName)
+    })
   });
 }
 
