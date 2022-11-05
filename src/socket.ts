@@ -12,6 +12,7 @@ function handleSocketIo_(io: Server) {
         tableIds[tableId] = [playerName];
       }
       io.sockets.in(tableId).emit('all-players', tableIds[tableId]);
+      io.sockets.in(tableId).emit("new-activity", `${playerName} joined the table`);
     });
   });
 }

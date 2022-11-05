@@ -17,9 +17,12 @@ socket.emit('room-join', TABLE_ID, playerName);
 addElementIntoList(players, playerName);
 
 socket.on('all-players', receivedPlayerNames => {
-  console.log(receivedPlayerNames);
   players.innerHTML = '';
   receivedPlayerNames.forEach(receivedPlayerName => {
     addElementIntoList(players, receivedPlayerName);
   });
 });
+
+socket.on('new-activity', (data) => {
+  addElementIntoList(activityChat, data);
+})
