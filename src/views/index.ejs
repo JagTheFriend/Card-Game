@@ -1,47 +1,51 @@
-<%- include("./_header.ejs") %>
-
-<div class="container text-center">
-  <div class="row">
-    <div class="col">
-      <div style="font-size: 20px;">Players</div>
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./_header.ejs") %>
+  <body>
+    <div class="container text-center">
+      <div class="row">
+        <div class="col">
+          <div style="font-size: 20px">Players</div>
+        </div>
+        <div class="col">
+          <div style="font-size: 20px">Pot</div>
+        </div>
+        <div class="col">
+          <div style="font-size: 20px">Activity</div>
+        </div>
+      </div>
+      <hr />
+      <div class="row" style="padding-top: 10px">
+        <div class="col">
+          <ul class="list-group">
+            <li class="list-group-item">Sm1</li>
+            <br />
+            <li class="list-group-item">Another</li>
+            <br />
+            <li class="list-group-item">SomeoneElse</li>
+            <br />
+            <li class="list-group-item">Sm1Name</li>
+            <br />
+            <li class="list-group-item">LastName</li>
+            <br />
+          </ul>
+        </div>
+        <div class="col"></div>
+        <div class="col">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Sm1 raised the bet by $100</li>
+            <br />
+            <li class="list-group-item">Another folded</li>
+            <br />
+            <li class="list-group-item">SomeoneElse called/matched</li>
+            <br />
+            <li class="list-group-item">Sm1Name folded</li>
+            <br />
+            <li class="list-group-item">LastName won $200</li>
+            <br />
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="col">
-      <div style="font-size: 20px;">Pot</div>
-    </div>
-    <div class="col">
-      <div style="font-size: 20px;">Activity</div>
-    </div>
-  </div>
-  <hr />
-  <div class="row" style="padding-top: 10px;">
-    <div class="col">
-      <ul class="list-group">
-        <li class="list-group-item">Sm1</li>
-        <br />
-        <li class="list-group-item">Another</li>
-        <br />
-        <li class="list-group-item">SomeoneElse</li>
-        <br />
-        <li class="list-group-item">Sm1Name</li>
-        <br />
-        <li class="list-group-item">LastName</li>
-        <br />
-      </ul>
-    </div>
-    <div class="col"></div>
-    <div class="col">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">Sm1 raised the bet by $100</li>
-        <br />
-        <li class="list-group-item">Another folded</li>
-        <br />
-        <li class="list-group-item">SomeoneElse called/matched</li>
-        <br />
-        <li class="list-group-item">Sm1Name folded</li>
-        <br />
-        <li class="list-group-item">LastName won $200</li>
-        <br />
-      </ul>
-    </div>
-  </div>
-</div>
+  </body>
+</html>
