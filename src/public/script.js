@@ -26,3 +26,9 @@ socket.on('all-players', receivedPlayerNames => {
 socket.on('new-activity', (data) => {
   addElementIntoList(activityChat, data);
 })
+
+socket.emit('raise', 50, playerName);
+
+socket.on('raise', (amount, playerName) => {
+  alert(`${playerName}: ${amount}`)
+})
