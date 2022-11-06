@@ -39,7 +39,8 @@ addElementIntoList(players, playerName);
 raiseBtn.onclick = () => {
   const raisedAmount = parseInt(document.getElementById('raiseAmount').value);
   // decrease balance
-  balance -= raisedAmount + raisedAmountByOtherUser;
+  const total = raisedAmount + raisedAmountByOtherUser;
+  balance = total <= balance ? (balance - total) : balance;
   balanceDisplayed.innerText = balance;
   // Allows the user to raise the bet
   socket.emit('raise', raisedAmount, playerName);
@@ -47,7 +48,8 @@ raiseBtn.onclick = () => {
 
 matchBtn.onclick = () => {
   // decrease balance
-  balance -= raisedAmountByOtherUser;
+  const total = raisedAmountByOtherUser;
+  balance = total <= balance ? (balance - total) : balance;
   balanceDisplayed.innerText = balance;
   socket.emit('match', playerName);
 };
