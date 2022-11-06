@@ -1,5 +1,6 @@
 var balance = 500;
 var raisedAmountByOtherUser = 0;
+var myTurn = false;
 
 const socket = io('/');
 const players = document.getElementById('players');
@@ -25,6 +26,12 @@ function addElementIntoList(listReference, data) {
   listReference.appendChild(document.createElement('br'));
 }
 
+function disableButtons(disableBtn = true) {
+  raiseBtn.disabled = disableBtn;
+  matchBtn.disabled = disableBtn;
+  foldBtn.disabled = disableBtn;
+}
+
 document.getElementById('raiseAmount').onchange = data => {
   raiseBtn.innerText = `Raise by ${document.getElementById('raiseAmount').value}`;
 };
@@ -40,6 +47,7 @@ raiseBtn.onclick = () => {
   balanceDisplayed.innerText = balance;
   // Allows the user to raise the bet
   socket.emit('raise', raisedAmount, playerName);
+  disableButtons();
 };
 
 matchBtn.onclick = () => {
@@ -48,6 +56,7 @@ matchBtn.onclick = () => {
   balance = total <= balance ? balance - total : balance;
   balanceDisplayed.innerText = balance;
   socket.emit('match', playerName);
+  disableButtons();
 };
 
 foldBtn.onclick = () => {
@@ -56,6 +65,7 @@ foldBtn.onclick = () => {
   matchBtn.disabled = true;
   foldBtn.disabled = true;
   socket.emit('fold', playerName);
+  disableButtons();
 };
 
 // Allows the "creator" of the table to start the game
@@ -93,4 +103,10 @@ socket.on('remove-start-game', () => {
 // Display the change in Pot
 socket.on('pot-change', newAmount => {
   pot.innerText = newAmount;
+});
+
+// Checks whether it's current user's turn
+socket.on('player-turn', _playerName => {
+  myTurn = _playerName === playerName;
+  disableBtn(!myTurn);
 });
