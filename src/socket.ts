@@ -9,16 +9,17 @@ function handleSocketIo_(io: Server) {
       socket.join(tableId);
       if (tableId in tableIds) {
         tableIds[tableId].players.push(playerName);
-        tableIds[tableId].activityChat.push(`${playerName} joined the table`)
+        tableIds[tableId].activityChat.push(`${playerName} joined`);
       } else {
         tableIds[tableId] = {
           players: [playerName],
           pot: 0,
-          activityChat: [`${playerName} joined the table`]
+          currentBet: 0,
+          activityChat: [`${playerName} joined`],
         };
       }
       io.sockets.in(tableId).emit('all-players', tableIds[tableId].players);
-      io.sockets.in(tableId).emit('new-activity', `${playerName} joined the table`);
+      io.sockets.in(tableId).emit('new-activity', `${playerName} joined`);
     });
   });
 }
