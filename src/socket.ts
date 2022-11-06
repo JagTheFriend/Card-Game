@@ -44,7 +44,7 @@ function handleSocketIo_(io: Server) {
         tableIds[tableId].pot += amount;
         // store the amount raised by
         tableIds[tableId].amountRaised = amount;
-        socket.to(tableId).emit('raise', amount, playerName);
+        socket.to(tableId).emit('raise', amount);
         sendNewActivity({
           io: io,
           tableId: tableId,
