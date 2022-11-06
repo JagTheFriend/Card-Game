@@ -38,7 +38,10 @@ matchBtn.onclick = () => {
 };
 
 foldBtn.onclick = () => {
-  socket.emit('fold');
+  raiseBtn.disabled = true;
+  matchBtn.disabled = true;
+  foldBtn.disabled = true;
+  socket.emit('fold', playerName);
 };
 
 // Allows the "creator" of the table to start the game
