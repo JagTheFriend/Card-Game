@@ -16,10 +16,6 @@ const foldBtn = document.getElementById('foldBtn');
 
 const playerName = `${Math.random() * 100}`;
 
-raiseBtn.disabled = true;
-matchBtn.disabled = true;
-foldBtn.disabled = true;
-
 function addElementIntoList(listReference, data) {
   const node = document.createElement('li');
   node.className = 'list-group-item';
@@ -68,13 +64,6 @@ socket.on('start-game', () => {
     document.getElementById('startBtnDiv').innerHTML = '';
     socket.emit('start-table-game');
   };
-});
-
-// Enables all the buttons
-socket.on('start-table-game', () => {
-  raiseBtn.disabled = false;
-  matchBtn.disabled = false;
-  foldBtn.disabled = false;
 });
 
 // Adds received data to activityChat

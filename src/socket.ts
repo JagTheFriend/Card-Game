@@ -43,16 +43,6 @@ function handleSocketIo_(io: Server) {
         data: `${playerName} joined`,
       });
 
-      // The "creator" started the game
-      socket.on('start-table-game', () => {
-        sendNewActivity({
-          io: io,
-          tableId: tableId,
-          data: null,
-          event: 'start-table-game',
-        });
-      });
-
       // Allows a user to raise the bet by a specific amount
       socket.on('raise', (amount: string, playerName: string) => {
         // Increase the pot
