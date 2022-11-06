@@ -13,17 +13,31 @@ function handleSocketIo_(io: Server) {
       socket.join(tableId);
       if (tableId in tableIds) {
         tableIds[tableId].players.push(playerName);
-        tableIds[tableId].activityChat.push(`${playerName} joined`);
       } else {
         tableIds[tableId] = {
           players: [playerName],
           pot: 0,
           currentBet: 0,
-          activityChat: [`${playerName} joined`],
         };
       }
       io.sockets.in(tableId).emit('all-players', tableIds[tableId].players);
-      io.sockets.in(tableId).emit('new-activity', `${playerName} joined`);
+      sendNewActivity({
+        io: io,
+        tableId: tableId,
+        data: `${playerName} joined`,
+      });
+
+      socket.on('raise', (amount, playerName) => {
+        tableIds[tableId].pot += amount;
+        tableIds[tableId].currentBet += amount;
+        socket.to(tableId).emit('raise', amount, playerName);
+        sendNewActivity({
+          io: io,
+          tableId: tableId,
+          data: `${playerName} raised by ${amount}`,
+        });
+
+      });
     });
   });
 }
