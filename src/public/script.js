@@ -34,7 +34,7 @@ raiseBtn.onclick = () => {
 };
 
 matchBtn.onclick = () => {
-  socket.emit('match');
+  socket.emit('match', playerName);
 };
 
 foldBtn.onclick = () => {
