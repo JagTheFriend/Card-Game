@@ -17,6 +17,7 @@ function handleSocketIo_(io: Server) {
       if (tableId in tableIds) {
         // Add user's name into the database
         tableIds[tableId].players.push(playerName);
+        socket.emit('remove-start-game');
       } else {
         // Create a new table
         tableIds[tableId] = {
@@ -24,6 +25,7 @@ function handleSocketIo_(io: Server) {
           pot: 0,
           amountRaised: 0,
         };
+        socket.emit('start-game');
       }
 
       // Allows the client to get all the usernames connected to the table

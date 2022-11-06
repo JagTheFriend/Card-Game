@@ -41,3 +41,16 @@ socket.emit('raise', 50, playerName);
 socket.on('raise', (amount, playerName) => {
   alert(`${playerName}: ${amount}`);
 });
+
+// Allows the "creator" of the table to start the game
+socket.on('start-game', () => {
+  document.getElementById('startBtn').onclick = () => {
+    document.getElementById('startBtnDiv').innerHTML = ""
+    socket.emit('start-game');
+  }
+});
+
+// Don't show the start button if the current user is not the creator
+socket.on('remove-start-game', () => {
+  document.getElementById('startBtnDiv').innerHTML = ""
+})
