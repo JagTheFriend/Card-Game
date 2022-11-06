@@ -3,14 +3,14 @@ import { Table } from '@interfaces/table.interface';
 
 const tableIds: Record<string, Table> = {};
 
-function sendNewActivity({ io, tableId, data }) {
-  return io.sockets.in(tableId).emit('new-activity', data);
+function sendNewActivity({ io, tableId, data, event = 'new-activity' }) {
+  return io.sockets.in(tableId).emit(event, data);
 }
 
 function handleSocketIo_(io: Server) {
   io.on('connect', socket => {
     // User joined the table
-    socket.on('room-join', (tableId, playerName) => {
+    socket.on('room-join', (tableId: string, playerName: string) => {
       socket.join(tableId);
 
       // Check whether the table exists in the "database"
@@ -29,7 +29,12 @@ function handleSocketIo_(io: Server) {
       }
 
       // Allows the client to get all the usernames connected to the table
-      io.sockets.in(tableId).emit('all-players', tableIds[tableId].players);
+      sendNewActivity({
+        io: io,
+        tableId: tableId,
+        data: tableIds[tableId].players,
+        event: 'all-players',
+      });
 
       // Let other user connected to the table know a new user connected
       sendNewActivity({
@@ -39,16 +44,22 @@ function handleSocketIo_(io: Server) {
       });
 
       // Allows a user to raise the bet by a specific amount
-      socket.on('raise', (amount, playerName) => {
+      socket.on('raise', (amount: string, playerName: string) => {
         // Increase the pot
-        tableIds[tableId].pot += amount;
+        tableIds[tableId].pot += parseInt(amount);
         // store the amount raised by
-        tableIds[tableId].amountRaised = amount;
-        socket.to(tableId).emit('raise', amount, playerName);
+        tableIds[tableId].amountRaised = parseInt(amount);
+        socket.to(tableId).emit('raise', amount);
         sendNewActivity({
           io: io,
           tableId: tableId,
           data: `${playerName} raised by ${amount}`,
+        });
+        sendNewActivity({
+          io: io,
+          tableId: tableId,
+          data: tableIds[tableId].pot,
+          event: 'pot-change',
         });
       });
 
@@ -59,6 +70,12 @@ function handleSocketIo_(io: Server) {
           io: io,
           tableId: tableId,
           data: `${playerName} matched`,
+        });
+        sendNewActivity({
+          io: io,
+          tableId: tableId,
+          data: tableIds[tableId].pot,
+          event: 'pot-change',
         });
       });
 
