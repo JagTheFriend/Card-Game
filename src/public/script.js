@@ -36,7 +36,7 @@ raiseBtn.onclick = () => {
   const raisedAmount = parseInt(document.getElementById('raiseAmount').value);
   // decrease balance
   const total = raisedAmount + raisedAmountByOtherUser;
-  balance = total <= balance ? (balance - total) : balance;
+  balance = total <= balance ? balance - total : balance;
   balanceDisplayed.innerText = balance;
   // Allows the user to raise the bet
   socket.emit('raise', raisedAmount, playerName);
@@ -45,7 +45,7 @@ raiseBtn.onclick = () => {
 matchBtn.onclick = () => {
   // decrease balance
   const total = raisedAmountByOtherUser;
-  balance = total <= balance ? (balance - total) : balance;
+  balance = total <= balance ? balance - total : balance;
   balanceDisplayed.innerText = balance;
   socket.emit('match', playerName);
 };
@@ -82,6 +82,7 @@ socket.on('all-players', receivedPlayerNames => {
 // Runs when a user raises the amount
 socket.on('raise', amount => {
   raisedAmountByOtherUser = amount;
+  document.getElementById('matchAmount').innerText = amount;
 });
 
 // Don't show the start button if the current user is not the creator
