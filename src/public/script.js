@@ -20,13 +20,39 @@ function addElementIntoList(listReference, data) {
   listReference.appendChild(document.createElement('br'));
 }
 
+document.getElementById("raiseAmount").onchange = (data) => {
+  raiseBtn.innerText = `Raise by ${document.getElementById("raiseAmount").value}`
+}
+
+socket.emit('room-join', TABLE_ID, playerName);
+addElementIntoList(players, playerName);
+
+raiseBtn.onclick = () => {
+  const amount = document.getElementById('raiseAmount').value
+  // Allows the user to raise the bet
+  socket.emit('raise', amount, playerName);
+};
+
+matchBtn.onclick = () => {
+  socket.emit('match');
+};
+
+foldBtn.onclick = () => {
+  socket.emit('fold');
+};
+
+// Allows the "creator" of the table to start the game
+socket.on('start-game', () => {
+  document.getElementById('startBtn').onclick = () => {
+    document.getElementById('startBtnDiv').innerHTML = '';
+    socket.emit('start-game');
+  };
+});
+
 // Adds received data to activityChat
 socket.on('new-activity', data => {
   addElementIntoList(activityChat, data);
 });
-
-socket.emit('room-join', TABLE_ID, playerName);
-addElementIntoList(players, playerName);
 
 // Displays all the connected username
 socket.on('all-players', receivedPlayerNames => {
@@ -36,21 +62,11 @@ socket.on('all-players', receivedPlayerNames => {
   });
 });
 
-// Allows the user to raise the bet
-socket.emit('raise', 50, playerName);
 socket.on('raise', (amount, playerName) => {
   alert(`${playerName}: ${amount}`);
 });
 
-// Allows the "creator" of the table to start the game
-socket.on('start-game', () => {
-  document.getElementById('startBtn').onclick = () => {
-    document.getElementById('startBtnDiv').innerHTML = ""
-    socket.emit('start-game');
-  }
-});
-
 // Don't show the start button if the current user is not the creator
 socket.on('remove-start-game', () => {
-  document.getElementById('startBtnDiv').innerHTML = ""
-})
+  document.getElementById('startBtnDiv').innerHTML = '';
+});
