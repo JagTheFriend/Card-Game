@@ -1,5 +1,5 @@
 var balance = 500;
-var raisedAmountByOtherUser = 0;
+var raisedAmountByOtherUser = 10;
 
 const socket = io('/');
 const players = document.getElementById('players');
@@ -23,15 +23,15 @@ function addElementIntoList(listReference, data) {
   listReference.appendChild(document.createElement('br'));
 }
 
-document.getElementById("raiseAmount").onchange = (data) => {
-  raiseBtn.innerText = `Raise by ${document.getElementById("raiseAmount").value}`
-}
+document.getElementById('raiseAmount').onchange = data => {
+  raiseBtn.innerText = `Raise by ${document.getElementById('raiseAmount').value}`;
+};
 
 socket.emit('room-join', TABLE_ID, playerName);
 addElementIntoList(players, playerName);
 
 raiseBtn.onclick = () => {
-  const amount = document.getElementById('raiseAmount').value
+  const amount = document.getElementById('raiseAmount').value;
   // decrease balance
   balance -= amount;
   // Allows the user to raise the bet
@@ -40,7 +40,7 @@ raiseBtn.onclick = () => {
 
 matchBtn.onclick = () => {
   // decrease balance
-  balance -= raisedAmountByOtherUser
+  balance -= raisedAmountByOtherUser;
   socket.emit('match', playerName);
 };
 
@@ -74,7 +74,7 @@ socket.on('all-players', receivedPlayerNames => {
 });
 
 // Runs when a user raises the amount
-socket.on('raise', (amount) => {
+socket.on('raise', amount => {
   raisedAmountByOtherUser = amount;
 });
 
