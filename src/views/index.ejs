@@ -32,8 +32,10 @@
         <!-- Table -->
         <div class="col">
           <h3>Pot: <span id="pot"></span></h3>
-          <button class="btn btn-primary" id="raiseBtn">Match</button>
-          <button class="btn btn-warning" id="matchBtn">Raise</button>
+          <input type="range" class="form-range" min="1" max="500" step="5" id="raiseAmount" value="40">
+          <br />
+          <button class="btn btn-primary" id="matchBtn">Match</button>
+          <button class="btn btn-warning" id="raiseBtn">Raise by 40</button>
           <button class="btn btn-danger" id="foldBtn">Fold</button>
         </div>
         <!-- Activity Chat -->
