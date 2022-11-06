@@ -45,6 +45,7 @@ matchBtn.onclick = () => {
 };
 
 foldBtn.onclick = () => {
+  // Disable all the buttons
   raiseBtn.disabled = true;
   matchBtn.disabled = true;
   foldBtn.disabled = true;
@@ -72,6 +73,7 @@ socket.on('all-players', receivedPlayerNames => {
   });
 });
 
+// Runs when a user raises the amount
 socket.on('raise', (amount) => {
   raisedAmountByOtherUser = amount;
 });
@@ -80,3 +82,8 @@ socket.on('raise', (amount) => {
 socket.on('remove-start-game', () => {
   document.getElementById('startBtnDiv').innerHTML = '';
 });
+
+// Display the change in Pot
+socket.on('pot-change', (newAmount) => {
+  pot.innerText = newAmount
+})
