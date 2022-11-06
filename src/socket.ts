@@ -32,7 +32,7 @@ function handleSocketIo_(io: Server) {
       sendNewActivity({
         io: io,
         tableId: tableId,
-        data: `${playerName} joined`,
+        data: tableIds[tableId].players,
         event: 'all-players',
       });
 
