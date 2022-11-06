@@ -3,6 +3,10 @@ import { Table } from '@interfaces/table.interface';
 
 const tableIds: Record<string, Table> = {};
 
+function sendNewActivity({ io, tableId, data }) {
+  return io.sockets.in(tableId).emit('new-activity', data);
+}
+
 function handleSocketIo_(io: Server) {
   io.on('connect', socket => {
     socket.on('room-join', (tableId, playerName) => {
