@@ -31,11 +31,11 @@ socket.emit('room-join', TABLE_ID, playerName);
 addElementIntoList(players, playerName);
 
 raiseBtn.onclick = () => {
-  const amount = document.getElementById('raiseAmount').value;
+  const raisedAmount = parseInt(document.getElementById('raiseAmount').value);
   // decrease balance
-  balance -= amount;
+  balance -= (raisedAmount + raisedAmountByOtherUser);
   // Allows the user to raise the bet
-  socket.emit('raise', amount, playerName);
+  socket.emit('raise', raisedAmount, playerName);
 };
 
 matchBtn.onclick = () => {
