@@ -1,3 +1,6 @@
+var balance = 500;
+var raisedAmountByOtherUser = 0;
+
 const socket = io('/');
 const players = document.getElementById('players');
 const activityChat = document.getElementById('activityChat');
@@ -29,11 +32,15 @@ addElementIntoList(players, playerName);
 
 raiseBtn.onclick = () => {
   const amount = document.getElementById('raiseAmount').value
+  // decrease balance
+  balance -= amount;
   // Allows the user to raise the bet
   socket.emit('raise', amount, playerName);
 };
 
 matchBtn.onclick = () => {
+  // decrease balance
+  balance -= raisedAmountByOtherUser
   socket.emit('match', playerName);
 };
 
@@ -65,8 +72,8 @@ socket.on('all-players', receivedPlayerNames => {
   });
 });
 
-socket.on('raise', (amount, playerName) => {
-  alert(`${playerName}: ${amount}`);
+socket.on('raise', (amount) => {
+  raisedAmountByOtherUser = amount;
 });
 
 // Don't show the start button if the current user is not the creator
