@@ -6,6 +6,8 @@ const players = document.getElementById('players');
 const activityChat = document.getElementById('activityChat');
 const table = document.getElementById('table');
 const pot = document.getElementById('pot');
+const balanceDisplayed = document.getElementById('balance');
+balanceDisplayed.innerText = balance;
 
 // All the buttons
 const raiseBtn = document.getElementById('raiseBtn');
@@ -33,7 +35,8 @@ addElementIntoList(players, playerName);
 raiseBtn.onclick = () => {
   const raisedAmount = parseInt(document.getElementById('raiseAmount').value);
   // decrease balance
-  balance -= (raisedAmount + raisedAmountByOtherUser);
+  balance -= raisedAmount + raisedAmountByOtherUser;
+  balanceDisplayed.innerText = balance;
   // Allows the user to raise the bet
   socket.emit('raise', raisedAmount, playerName);
 };
@@ -41,6 +44,7 @@ raiseBtn.onclick = () => {
 matchBtn.onclick = () => {
   // decrease balance
   balance -= raisedAmountByOtherUser;
+  balanceDisplayed.innerText = balance;
   socket.emit('match', playerName);
 };
 
@@ -84,6 +88,6 @@ socket.on('remove-start-game', () => {
 });
 
 // Display the change in Pot
-socket.on('pot-change', (newAmount) => {
-  pot.innerText = newAmount
-})
+socket.on('pot-change', newAmount => {
+  pot.innerText = newAmount;
+});
