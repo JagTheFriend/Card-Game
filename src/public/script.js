@@ -1,5 +1,5 @@
 var balance = 500;
-var raisedAmountByOtherUser = 10;
+var raisedAmountByOtherUser = 0;
 
 const socket = io('/');
 const players = document.getElementById('players');
