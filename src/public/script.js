@@ -2,7 +2,7 @@ const socket = io('/');
 const players = document.getElementById('players');
 const activityChat = document.getElementById('activityChat');
 const table = document.getElementById('table');
-const playerName = 'jag';
+const playerName = `${Math.random() * 100}`;
 
 function addElementIntoList(listReference, data) {
   const node = document.createElement('li');
@@ -23,12 +23,12 @@ socket.on('all-players', receivedPlayerNames => {
   });
 });
 
-socket.on('new-activity', (data) => {
+socket.on('new-activity', data => {
   addElementIntoList(activityChat, data);
-})
+});
 
 socket.emit('raise', 50, playerName);
 
 socket.on('raise', (amount, playerName) => {
-  alert(`${playerName}: ${amount}`)
-})
+  alert(`${playerName}: ${amount}`);
+});
