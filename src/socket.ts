@@ -70,6 +70,19 @@ function handleSocketIo_(io: Server) {
             data: nextPlayer,
             event: 'next-player-turn',
           });
+        } else {
+          sendNewActivity({
+            io: io,
+            tableId: tableId,
+            data: null,
+            event: 'next-card',
+          });
+
+          sendNewActivity({
+            io: io,
+            tableId: tableId,
+            data: 'Displaying the next card',
+          });
         }
       });
 
@@ -93,8 +106,21 @@ function handleSocketIo_(io: Server) {
           sendNewActivity({
             io: io,
             tableId: tableId,
-            data: `${nextPlayer}`,
+            data: nextPlayer,
             event: 'next-player-turn',
+          });
+        } else {
+          sendNewActivity({
+            io: io,
+            tableId: tableId,
+            data: null,
+            event: 'next-card',
+          });
+
+          sendNewActivity({
+            io: io,
+            tableId: tableId,
+            data: 'Displaying the next card',
           });
         }
       });
@@ -114,6 +140,19 @@ function handleSocketIo_(io: Server) {
             tableId: tableId,
             data: nextPlayer,
             event: 'next-player-turn',
+          });
+        } else {
+          sendNewActivity({
+            io: io,
+            tableId: tableId,
+            data: null,
+            event: 'next-card',
+          });
+
+          sendNewActivity({
+            io: io,
+            tableId: tableId,
+            data: 'Displaying the next card',
           });
         }
       });
