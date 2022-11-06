@@ -2,11 +2,12 @@ const socket = io('/');
 const players = document.getElementById('players');
 const activityChat = document.getElementById('activityChat');
 const table = document.getElementById('table');
+const pot = document.getElementById('pot');
 
 // All the buttons
-const raiseBtn = document.getElementById("raiseBtn");
-const matchBtn = document.getElementById("matchBtn");
-const foldBtn = document.getElementById("foldBtn");
+const raiseBtn = document.getElementById('raiseBtn');
+const matchBtn = document.getElementById('matchBtn');
+const foldBtn = document.getElementById('foldBtn');
 
 const playerName = `${Math.random() * 100}`;
 

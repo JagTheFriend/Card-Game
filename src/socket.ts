@@ -51,23 +51,23 @@ function handleSocketIo_(io: Server) {
       });
 
       // User matched the bet (amount raised)
-      socket.on('match', (playerName) => {
+      socket.on('match', playerName => {
         tableIds[tableId].pot += tableIds[tableId].amountRaised;
         sendNewActivity({
           io: io,
           tableId: tableId,
           data: `${playerName} matched`,
         });
-      })
+      });
 
       // User folded
-      socket.on('fold', (playerName) => {
+      socket.on('fold', playerName => {
         sendNewActivity({
           io: io,
           tableId: tableId,
           data: `${playerName} folded`,
         });
-      })
+      });
     });
   });
 }
