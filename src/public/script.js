@@ -13,9 +13,15 @@ function addElementIntoList(listReference, data) {
   listReference.appendChild(document.createElement('br'));
 }
 
+// Adds received data to activityChat
+socket.on('new-activity', data => {
+  addElementIntoList(activityChat, data);
+});
+
 socket.emit('room-join', TABLE_ID, playerName);
 addElementIntoList(players, playerName);
 
+// Displays all the connected username
 socket.on('all-players', receivedPlayerNames => {
   players.innerHTML = '';
   receivedPlayerNames.forEach(receivedPlayerName => {
@@ -23,12 +29,8 @@ socket.on('all-players', receivedPlayerNames => {
   });
 });
 
-socket.on('new-activity', data => {
-  addElementIntoList(activityChat, data);
-});
-
+// Allows the user to raise the bet
 socket.emit('raise', 50, playerName);
-
 socket.on('raise', (amount, playerName) => {
   alert(`${playerName}: ${amount}`);
 });

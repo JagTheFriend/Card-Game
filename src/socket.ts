@@ -20,6 +20,7 @@ function handleSocketIo_(io: Server) {
           currentBet: 0,
         };
       }
+
       io.sockets.in(tableId).emit('all-players', tableIds[tableId].players);
       sendNewActivity({
         io: io,
