@@ -4,5 +4,5 @@ type Pot = number;
 export interface Table {
   players: Player[];
   pot: Pot;
-  currentBet: 0;
+  amountRaised: 0;
 }
