@@ -61,6 +61,16 @@ function handleSocketIo_(io: Server) {
           data: tableIds[tableId].pot,
           event: 'pot-change',
         });
+        const players = tableIds[tableId].players;
+        const nextPlayer = players[players.indexOf(playerName) + 1];
+        if (nextPlayer) {
+          sendNewActivity({
+            io: io,
+            tableId: tableId,
+            data: nextPlayer,
+            event: 'next-player-turn',
+          });
+        }
       });
 
       // User matched the bet (amount raised)
@@ -77,6 +87,16 @@ function handleSocketIo_(io: Server) {
           data: tableIds[tableId].pot,
           event: 'pot-change',
         });
+        const players = tableIds[tableId].players;
+        const nextPlayer = players[players.indexOf(playerName) + 1];
+        if (nextPlayer) {
+          sendNewActivity({
+            io: io,
+            tableId: tableId,
+            data: `${nextPlayer}`,
+            event: 'next-player-turn',
+          });
+        }
       });
 
       // User folded
@@ -86,6 +106,16 @@ function handleSocketIo_(io: Server) {
           tableId: tableId,
           data: `${playerName} folded`,
         });
+        const players = tableIds[tableId].players;
+        const nextPlayer = players[players.indexOf(playerName) + 1];
+        if (nextPlayer) {
+          sendNewActivity({
+            io: io,
+            tableId: tableId,
+            data: nextPlayer,
+            event: 'next-player-turn',
+          });
+        }
       });
     });
   });

@@ -73,6 +73,7 @@ socket.on('start-game', () => {
   document.getElementById('startBtn').onclick = () => {
     document.getElementById('startBtnDiv').innerHTML = '';
     socket.emit('start-table-game');
+    disableButtons(false);
   };
 });
 
@@ -98,6 +99,7 @@ socket.on('raise', amount => {
 // Don't show the start button if the current user is not the creator
 socket.on('remove-start-game', () => {
   document.getElementById('startBtnDiv').innerHTML = '';
+  disableButtons();
 });
 
 // Display the change in Pot
@@ -106,7 +108,7 @@ socket.on('pot-change', newAmount => {
 });
 
 // Checks whether it's current user's turn
-socket.on('player-turn', _playerName => {
+socket.on('next-player-turn', _playerName => {
   myTurn = _playerName === playerName;
-  disableBtn(!myTurn);
+  disableButtons(!myTurn);
 });
