@@ -9,28 +9,39 @@ function sendNewActivity({ io, tableId, data }) {
 
 function handleSocketIo_(io: Server) {
   io.on('connect', socket => {
+    // User joined the table
     socket.on('room-join', (tableId, playerName) => {
       socket.join(tableId);
+
+      // Check whether the table exists in the "database"
       if (tableId in tableIds) {
+        // Add user's name into the database
         tableIds[tableId].players.push(playerName);
       } else {
+        // Create a new table
         tableIds[tableId] = {
           players: [playerName],
           pot: 0,
-          currentBet: 0,
+          amountRaised: 0,
         };
       }
 
+      // Allows the client to get all the usernames connected to the table
       io.sockets.in(tableId).emit('all-players', tableIds[tableId].players);
+
+      // Let other user connected to the table know a new user connected
       sendNewActivity({
         io: io,
         tableId: tableId,
         data: `${playerName} joined`,
       });
 
+      // Allows a user to raise the bet by a specific amount
       socket.on('raise', (amount, playerName) => {
+        // Increase the pot
         tableIds[tableId].pot += amount;
-        tableIds[tableId].currentBet += amount;
+        // store the amount raised by
+        tableIds[tableId].amountRaised = amount;
         socket.to(tableId).emit('raise', amount, playerName);
         sendNewActivity({
           io: io,
@@ -38,6 +49,25 @@ function handleSocketIo_(io: Server) {
           data: `${playerName} raised by ${amount}`,
         });
       });
+
+      // User matched the bet (amount raised)
+      socket.on('match', (playerName) => {
+        tableIds[tableId].pot += tableIds[tableId].amountRaised;
+        sendNewActivity({
+          io: io,
+          tableId: tableId,
+          data: `${playerName} matched`,
+        });
+      })
+
+      // User folded
+      socket.on('fold', (playerName) => {
+        sendNewActivity({
+          io: io,
+          tableId: tableId,
+          data: `${playerName} folded`,
+        });
+      })
     });
   });
 }
