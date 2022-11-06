@@ -2,7 +2,7 @@
 <html lang="en">
   <%- include("./_header.ejs") %>
   <script>
-    TABLE_ID = "<%= tableId %>"
+    TABLE_ID = '<%= tableId %>';
   </script>
   <script src="/socket.io/socket.io.js" defer></script>
   <script src="/script.js" defer></script>
@@ -27,9 +27,9 @@
         </div>
         <!-- Table -->
         <div class="col">
-          <button class="btn btn-primary">Match</button>
-          <button class="btn btn-warning">Raise</button>
-          <button class="btn btn-danger">Fold</button>
+          <button class="btn btn-primary" id="raiseBtn">Match</button>
+          <button class="btn btn-warning" id="matchBtn">Raise</button>
+          <button class="btn btn-danger" id="foldBtn">Fold</button>
         </div>
         <!-- Activity Chat -->
         <div class="col">
