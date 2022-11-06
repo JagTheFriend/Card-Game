@@ -36,7 +36,6 @@ function handleSocketIo_(io: Server) {
           tableId: tableId,
           data: `${playerName} raised by ${amount}`,
         });
-
       });
     });
   });
