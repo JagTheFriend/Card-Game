@@ -9,11 +9,12 @@ function handleSocketIo_(io: Server) {
       socket.join(tableId);
       if (tableId in tableIds) {
         tableIds[tableId].players.push(playerName);
+        tableIds[tableId].activityChat.push(`${playerName} joined the table`)
       } else {
         tableIds[tableId] = {
           players: [playerName],
           pot: 0,
-          activityChat: []
+          activityChat: [`${playerName} joined the table`]
         };
       }
       io.sockets.in(tableId).emit('all-players', tableIds[tableId].players);
