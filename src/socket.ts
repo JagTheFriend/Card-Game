@@ -1,9 +1,10 @@
 import { Server } from 'socket.io';
 import { Table } from '@interfaces/table.interface';
+import Deck from '@creativenull/deckjs';
 
 const tableIds: Record<string, Table> = {};
 
-function sendNewActivity({ io, tableId, data, event = 'new-activity' }) {
+function sendNewActivity({ io, tableId, data, event = 'new-activity' }): any {
   return io.sockets.in(tableId).emit(event, data);
 }
 
@@ -28,6 +29,13 @@ function handleSocketIo_(io: Server) {
         };
         socket.emit('start-game');
       }
+
+      sendNewActivity({
+        io: io,
+        tableId: tableId,
+        data: new Deck(true).getCards(7),
+        event: '7-cards',
+      });
 
       // Allows the client to get all the usernames connected to the table
       sendNewActivity({

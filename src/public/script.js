@@ -1,6 +1,7 @@
 var balance = 500;
 var raisedAmountByOtherUser = 0;
 var myTurn = false;
+const cards = [];
 
 const socket = io('/');
 const players = document.getElementById('players');
@@ -72,7 +73,6 @@ foldBtn.onclick = () => {
 socket.on('start-game', () => {
   document.getElementById('startBtn').onclick = () => {
     document.getElementById('startBtnDiv').innerHTML = '';
-    socket.emit('start-table-game');
     disableButtons(false);
   };
 });
@@ -111,4 +111,8 @@ socket.on('pot-change', newAmount => {
 socket.on('next-player-turn', _playerName => {
   myTurn = _playerName === playerName;
   disableButtons(!myTurn);
+});
+
+socket.on('7-cards', cards_ => {
+  console.log(cards_);
 });
