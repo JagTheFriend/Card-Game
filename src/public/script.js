@@ -80,13 +80,13 @@ socket.on('start-game', () => {
 
 // Adds received data to activityChat
 socket.on('new-activity', data => {
-  addElementIntoList(activityChat, data);
+  return addElementIntoList(activityChat, data);
 });
 
 // Displays all the connected username
 socket.on('all-players', receivedPlayerNames => {
   players.innerHTML = '';
-  receivedPlayerNames.forEach(receivedPlayerName => {
+  return receivedPlayerNames.forEach(receivedPlayerName => {
     addElementIntoList(players, receivedPlayerName);
   });
 });
@@ -100,7 +100,7 @@ socket.on('raise', amount => {
 // Don't show the start button if the current user is not the creator
 socket.on('remove-start-game', () => {
   document.getElementById('startBtnDiv').innerHTML = '';
-  disableButtons();
+  return disableButtons();
 });
 
 // Display the change in Pot
@@ -111,13 +111,13 @@ socket.on('pot-change', newAmount => {
 // Checks whether it's current user's turn
 socket.on('next-player-turn', _playerName => {
   myTurn = _playerName === playerName;
-  disableButtons(!myTurn);
+  return disableButtons(!myTurn);
 });
 
 socket.on('5-cards', cards_ => {
-  cards_.forEach(card => cardsToDisplay.push(card));
+  return cards_.forEach(card => cardsToDisplay.push(card));
 });
 
 socket.on('your-cards', cards_ => {
-  cards_.forEach(card => myCards.push(card));
+  return cards_.forEach(card => myCards.push(card));
 });

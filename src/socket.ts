@@ -8,6 +8,40 @@ function sendNewActivity({ io, tableId, data, event = 'new-activity' }): any {
   return io.sockets.in(tableId).emit(event, data);
 }
 
+function nextPlayer({ io, tableId, playerName }) {
+  const players = tableIds[tableId].players;
+  const nextPlayer = players[players.indexOf(playerName) + 1];
+  if (nextPlayer) {
+    sendNewActivity({
+      io: io,
+      tableId: tableId,
+      data: nextPlayer,
+      event: 'next-player-turn',
+    });
+  } else {
+    sendNewActivity({
+      io: io,
+      tableId: tableId,
+      data: null,
+      event: 'next-card',
+    });
+
+    sendNewActivity({
+      io: io,
+      tableId: tableId,
+      data: 'Displaying the next card',
+    });
+
+    // Refer back to the first player
+    sendNewActivity({
+      io: io,
+      tableId: tableId,
+      data: players[0],
+      event: 'next-player-turn',
+    });
+  }
+}
+
 function handleSocketIo_(io: Server) {
   io.on('connect', socket => {
     // User joined the table
@@ -65,29 +99,11 @@ function handleSocketIo_(io: Server) {
           data: tableIds[tableId].pot,
           event: 'pot-change',
         });
-        const players = tableIds[tableId].players;
-        const nextPlayer = players[players.indexOf(playerName) + 1];
-        if (nextPlayer) {
-          sendNewActivity({
-            io: io,
-            tableId: tableId,
-            data: nextPlayer,
-            event: 'next-player-turn',
-          });
-        } else {
-          sendNewActivity({
-            io: io,
-            tableId: tableId,
-            data: null,
-            event: 'next-card',
-          });
-
-          sendNewActivity({
-            io: io,
-            tableId: tableId,
-            data: 'Displaying the next card',
-          });
-        }
+        return nextPlayer({
+          io: io,
+          tableId: tableId,
+          playerName: playerName,
+        });
       });
 
       // User matched the bet (amount raised)
@@ -104,29 +120,11 @@ function handleSocketIo_(io: Server) {
           data: tableIds[tableId].pot,
           event: 'pot-change',
         });
-        const players = tableIds[tableId].players;
-        const nextPlayer = players[players.indexOf(playerName) + 1];
-        if (nextPlayer) {
-          sendNewActivity({
-            io: io,
-            tableId: tableId,
-            data: nextPlayer,
-            event: 'next-player-turn',
-          });
-        } else {
-          sendNewActivity({
-            io: io,
-            tableId: tableId,
-            data: null,
-            event: 'next-card',
-          });
-
-          sendNewActivity({
-            io: io,
-            tableId: tableId,
-            data: 'Displaying the next card',
-          });
-        }
+        return nextPlayer({
+          io: io,
+          tableId: tableId,
+          playerName: playerName,
+        });
       });
 
       // User folded
@@ -136,29 +134,11 @@ function handleSocketIo_(io: Server) {
           tableId: tableId,
           data: `${playerName} folded`,
         });
-        const players = tableIds[tableId].players;
-        const nextPlayer = players[players.indexOf(playerName) + 1];
-        if (nextPlayer) {
-          sendNewActivity({
-            io: io,
-            tableId: tableId,
-            data: nextPlayer,
-            event: 'next-player-turn',
-          });
-        } else {
-          sendNewActivity({
-            io: io,
-            tableId: tableId,
-            data: null,
-            event: 'next-card',
-          });
-
-          sendNewActivity({
-            io: io,
-            tableId: tableId,
-            data: 'Displaying the next card',
-          });
-        }
+        return nextPlayer({
+          io: io,
+          tableId: tableId,
+          playerName: playerName,
+        });
       });
     });
   });
