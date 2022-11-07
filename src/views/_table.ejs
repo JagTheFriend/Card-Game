@@ -1,0 +1,38 @@
+<style>
+  #dealer-cards img {
+    height: 175px;
+  }
+  #your-cards img {
+    height: 175px;
+  }
+</style>
+
+<h3>Pot: <span id="pot">0</span></h3>
+
+<h2>Table:</h2>
+<div id="dealer-cards">
+  <!-- Last 2 cards -->
+  <img src="/cards/BACK.png" class="blackCard" />
+  <img src="/cards/BACK.png" class="blackCard" />
+  <br />
+  <!-- First 5 cards -->
+  <img src="/cards/2-C.png" class="displayedCard" />
+  <img src="/cards/3-C.png" class="displayedCard" />
+  <img src="/cards/4-C.png" class="displayedCard" />
+  <img src="/cards/5-C.png" class="displayedCard" />
+  <img src="/cards/6-C.png" class="displayedCard" />
+</div>
+<br />
+
+<h2>Your cards:</h2>
+<div id="your-cards">
+  <img src="/cards/2-C.png" class="displayedCard" />
+  <img src="/cards/3-C.png" class="displayedCard" />
+</div>
+
+<h4 style="padding: 10px">Your Balance: <span id="balance">500</span></h4>
+<input type="range" class="form-range" min="1" max="500" step="5" id="raiseAmount" value="40" />
+<br />
+<button class="btn btn-primary" id="matchBtn">Match <span id="matchAmount"></span></button>
+<button class="btn btn-warning" id="raiseBtn">Raise by 40</button>
+<button class="btn btn-danger" id="foldBtn">Fold</button>
