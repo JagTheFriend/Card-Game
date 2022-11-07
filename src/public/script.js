@@ -156,3 +156,7 @@ socket.on('display-next-card', () => {
     hiddenCards[1].src = `/cards/${getImage(card)}`;
   }
 });
+
+socket.on('send-cards', () => {
+  return disableButtons();
+});
