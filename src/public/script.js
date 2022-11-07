@@ -12,6 +12,11 @@ const pot = document.getElementById('pot');
 const balanceDisplayed = document.getElementById('balance');
 balanceDisplayed.innerText = balance;
 
+// The selector for cards
+const hiddenCards = document.getElementsByClassName('hiddenCards');
+const displayedCard = document.getElementsByClassName('displayedCard');
+const userDisplayedCard = document.getElementsByClassName('userDisplayedCard');
+
 // All the buttons
 const raiseBtn = document.getElementById('raiseBtn');
 const matchBtn = document.getElementById('matchBtn');
@@ -115,9 +120,15 @@ socket.on('next-player-turn', _playerName => {
 });
 
 socket.on('5-cards', cards_ => {
-  return cards_.forEach(card => cardsToDisplay.push(card));
+  cards_.slice(0, 3).forEach(card => {
+    displayedCard[cards_.indexOf(card)].src = `/cards/${card.charAt(card.length - 2)}-${card.charAt(card.length - 1)}.png`;
+  });
+  cardsToDisplay.concat(cards_);
 });
 
 socket.on('your-cards', cards_ => {
-  return cards_.forEach(card => myCards.push(card));
+  return cards_.forEach(card => {
+    userDisplayedCard[cards_.indexOf(card)].src = `/cards/${card.charAt(card.length - 2)}-${card.charAt(card.length - 1)}.png`;
+    myCards.push(card);
+  });
 });
