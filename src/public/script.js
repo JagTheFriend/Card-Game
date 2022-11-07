@@ -39,6 +39,11 @@ function disableButtons(disableBtn = true) {
   foldBtn.disabled = disableBtn;
 }
 
+function getImage(card) {
+  const data = card.split('#')[1];
+  return `${data.slice(0, -1)} - ${data.slice(-1)}.png`;
+}
+
 document.getElementById('raiseAmount').onchange = data => {
   raiseBtn.innerText = `Raise by ${document.getElementById('raiseAmount').value}`;
 };
@@ -130,14 +135,14 @@ socket.on('next-player-turn', _playerName => {
 
 socket.on('5-cards', cards_ => {
   cards_.slice(0, 3).forEach(card => {
-    displayedCard[cards_.indexOf(card)].src = `/cards/${card.charAt(card.length - 2)}-${card.charAt(card.length - 1)}.png`;
+    displayedCard[cards_.indexOf(card)].src = `/cards/${getImage(card)}`;
   });
   cardsToDisplay = cardsToDisplay.concat(cards_);
 });
 
 socket.on('your-cards', cards_ => {
   return cards_.forEach(card => {
-    userDisplayedCard[cards_.indexOf(card)].src = `/cards/${card.charAt(card.length - 2)}-${card.charAt(card.length - 1)}.png`;
+    userDisplayedCard[cards_.indexOf(card)].src = `/cards/${getImage(card)}`;
     myCards.push(card);
   });
 });
@@ -145,9 +150,9 @@ socket.on('your-cards', cards_ => {
 socket.on('display-next-card', () => {
   if (hiddenCards[0].src.split('/')[4] == 'BACK.png') {
     const card = cardsToDisplay[cardsToDisplay.length - 2];
-    hiddenCards[0].src = `/cards/${card.charAt(card.length - 2)}-${card.charAt(card.length - 1)}.png`;
+    hiddenCards[0].src = `/cards/${getImage(card)}`;
   } else {
     const card = cardsToDisplay[cardsToDisplay.length - 1];
-    hiddenCards[1].src = `/cards/${card.charAt(card.length - 2)}-${card.charAt(card.length - 1)}.png`;
+    hiddenCards[1].src = `/cards/${getImage(card)}`;
   }
 });
