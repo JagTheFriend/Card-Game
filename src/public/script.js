@@ -41,7 +41,7 @@ function disableButtons(disableBtn = true) {
 
 function getImage(card) {
   const data = card.split('#')[1];
-  return `${data.slice(0, -1)} - ${data.slice(-1)}.png`;
+  return `${data.slice(0, -1)}-${data.slice(-1)}.png`;
 }
 
 document.getElementById('raiseAmount').onchange = data => {
