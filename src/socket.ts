@@ -25,17 +25,11 @@ function handleSocketIo_(io: Server) {
           players: [playerName],
           pot: 0,
           amountRaised: 0,
-          cards: [],
+          cards: Deck.stringify(new Deck(true).getCards(7)),
         };
         socket.emit('start-game');
       }
-
-      sendNewActivity({
-        io: io,
-        tableId: tableId,
-        data: new Deck(true).getCards(7),
-        event: '7-cards',
-      });
+      socket.emit('7-cards', tableIds[tableId].cards);
 
       // Allows the client to get all the usernames connected to the table
       sendNewActivity({

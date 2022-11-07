@@ -114,5 +114,5 @@ socket.on('next-player-turn', _playerName => {
 });
 
 socket.on('7-cards', cards_ => {
-  console.log(cards_);
+  cards_.forEach(card => cards.push(`${card.slice(3, 4)}-${card.slice(4, 5)}`));
 });
