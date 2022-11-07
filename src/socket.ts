@@ -8,8 +8,18 @@ function sendNewActivity({ io, tableId, data, event = 'new-activity' }): any {
   return io.sockets.in(tableId).emit(event, data);
 }
 
-function nextPlayer({ io, tableId, playerName }) {
+function nextPlayer({ io, tableId, playerName, raise = false }) {
   const players = tableIds[tableId].players;
+
+  if (raise) {
+    return sendNewActivity({
+      io: io,
+      tableId: tableId,
+      data: players[0],
+      event: 'next-player-turn',
+    });
+  }
+
   const nextPlayer = players[players.indexOf(playerName) + 1];
   if (nextPlayer) {
     sendNewActivity({
@@ -110,6 +120,7 @@ function handleSocketIo_(io: Server) {
           io: io,
           tableId: tableId,
           playerName: playerName,
+          raise: true,
         });
       });
 
