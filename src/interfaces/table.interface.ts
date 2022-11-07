@@ -5,4 +5,5 @@ export interface Table {
   pot: number;
   amountRaised: number;
   cards: string[];
+  cardsShown: number;
 }

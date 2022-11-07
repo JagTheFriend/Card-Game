@@ -29,12 +29,15 @@ function nextPlayer({ io, tableId, playerName, raise = false }) {
       event: 'next-player-turn',
     });
   } else {
-    sendNewActivity({
-      io: io,
-      tableId: tableId,
-      data: null,
-      event: 'next-card',
-    });
+    tableIds[tableId].cardsShown += 1;
+    if (tableIds[tableId].cardsShown == 6) {
+      return sendNewActivity({
+        io: io,
+        tableId: tableId,
+        data: null,
+        event: 'send-cards',
+      });
+    }
 
     sendNewActivity({
       io: io,
@@ -77,6 +80,7 @@ function handleSocketIo_(io: Server) {
           pot: 0,
           amountRaised: 0,
           cards: Deck.stringify(new Deck(true).getCards(5)),
+          cardsShown: 3,
         };
         socket.emit('start-game');
       }
