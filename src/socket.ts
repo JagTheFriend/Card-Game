@@ -24,6 +24,7 @@ function handleSocketIo_(io: Server) {
           players: [playerName],
           pot: 0,
           amountRaised: 0,
+          cards: [],
         };
         socket.emit('start-game');
       }
