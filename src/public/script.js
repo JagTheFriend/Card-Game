@@ -1,7 +1,8 @@
 var balance = 500;
 var raisedAmountByOtherUser = 0;
 var myTurn = false;
-const cards = [];
+const cardsToDisplay = [];
+const myCards = [];
 
 const socket = io('/');
 const players = document.getElementById('players');
@@ -113,6 +114,10 @@ socket.on('next-player-turn', _playerName => {
   disableButtons(!myTurn);
 });
 
-socket.on('7-cards', cards_ => {
-  cards_.forEach(card => cards.push(`${card.slice(3, 4)}-${card.slice(4, 5)}`));
+socket.on('5-cards', cards_ => {
+  cards_.forEach(card => cardsToDisplay.push(card));
+});
+
+socket.on('your-cards', cards_ => {
+  cards_.forEach(card => myCards.push(card));
 });
