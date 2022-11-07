@@ -11,7 +11,7 @@ function sendNewActivity({ io, tableId, data, event = 'new-activity' }): any {
 function nextPlayer({ io, tableId, playerName, raise = false }) {
   const players = tableIds[tableId].players;
 
-  if (raise) {
+  if (raise && players[0] != playerName) {
     return sendNewActivity({
       io: io,
       tableId: tableId,
