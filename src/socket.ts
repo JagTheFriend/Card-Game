@@ -147,6 +147,15 @@ function handleSocketIo_(io: Server) {
           playerName: playerName,
         });
       });
+
+      // User's balance is 0, so go to the next user
+      socket.on('next-player', playerName => {
+        return nextPlayer({
+          io: io,
+          tableId: tableId,
+          playerName: playerName,
+        });
+      });
     });
   });
 }

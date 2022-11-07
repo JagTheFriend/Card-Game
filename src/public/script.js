@@ -47,6 +47,10 @@ socket.emit('room-join', TABLE_ID, playerName);
 addElementIntoList(players, playerName);
 
 raiseBtn.onclick = () => {
+  if (balance == 0) {
+    return socket.emit('next-player', playerName);
+  }
+
   const raisedAmount =
     parseInt(document.getElementById('raiseAmount').value) <= balance ? parseInt(document.getElementById('raiseAmount').value) : balance;
   // decrease balance
@@ -59,6 +63,10 @@ raiseBtn.onclick = () => {
 };
 
 matchBtn.onclick = () => {
+  if (balance == 0) {
+    return socket.emit('next-player', playerName);
+  }
+
   // decrease balance
   const total = raisedAmountByOtherUser;
   balance = total <= balance ? balance - total : 0;
