@@ -1,4 +1,8 @@
 type Player = string;
+type PlayerCards = {
+  id: string;
+  cards: string[];
+};
 
 export interface Table {
   players: Player[];
@@ -6,4 +10,5 @@ export interface Table {
   amountRaised: number;
   cards: string[];
   cardsShown: number;
+  playerCards: PlayerCards[];
 }

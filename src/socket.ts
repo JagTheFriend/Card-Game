@@ -81,11 +81,18 @@ function handleSocketIo_(io: Server) {
           amountRaised: 0,
           cards: Deck.stringify(new Deck(true).getCards(5)),
           cardsShown: 3,
+          playerCards: [],
         };
         socket.emit('start-game');
       }
       socket.emit('5-cards', tableIds[tableId].cards);
-      socket.emit('your-cards', Deck.stringify(new Deck(true).getCards(2)));
+
+      const playerCards = Deck.stringify(new Deck(true).getCards(2));
+      socket.emit('your-cards', playerCards);
+      tableIds[tableId].playerCards.push({
+        id: playerName,
+        cards: playerCards.concat(tableIds[tableId].cards),
+      });
 
       // Allows the client to get all the usernames connected to the table
       sendNewActivity({
