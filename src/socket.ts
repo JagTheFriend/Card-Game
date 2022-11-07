@@ -32,6 +32,13 @@ function nextPlayer({ io, tableId, playerName }) {
       data: 'Displaying the next card',
     });
 
+    sendNewActivity({
+      io: io,
+      tableId: tableId,
+      data: null,
+      event: 'display-next-card',
+    });
+
     // Refer back to the first player
     sendNewActivity({
       io: io,

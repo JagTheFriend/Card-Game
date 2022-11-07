@@ -1,8 +1,8 @@
 var balance = 500;
 var raisedAmountByOtherUser = 0;
 var myTurn = false;
-const cardsToDisplay = [];
-const myCards = [];
+var cardsToDisplay = [];
+var myCards = [];
 
 const socket = io('/');
 const players = document.getElementById('players');
@@ -123,7 +123,7 @@ socket.on('5-cards', cards_ => {
   cards_.slice(0, 3).forEach(card => {
     displayedCard[cards_.indexOf(card)].src = `/cards/${card.charAt(card.length - 2)}-${card.charAt(card.length - 1)}.png`;
   });
-  cardsToDisplay.concat(cards_);
+  cardsToDisplay = cardsToDisplay.concat(cards_);
 });
 
 socket.on('your-cards', cards_ => {
@@ -131,4 +131,14 @@ socket.on('your-cards', cards_ => {
     userDisplayedCard[cards_.indexOf(card)].src = `/cards/${card.charAt(card.length - 2)}-${card.charAt(card.length - 1)}.png`;
     myCards.push(card);
   });
+});
+
+socket.on('display-next-card', () => {
+  if (hiddenCards[0].src.split('/')[4] == 'BACK.png') {
+    const card = cardsToDisplay[cardsToDisplay.length - 2];
+    hiddenCards[0].src = `/cards/${card.charAt(card.length - 2)}-${card.charAt(card.length - 1)}.png`;
+  } else {
+    const card = cardsToDisplay[cardsToDisplay.length - 1];
+    hiddenCards[1].src = `/cards/${card.charAt(card.length - 2)}-${card.charAt(card.length - 1)}.png`;
+  }
 });
