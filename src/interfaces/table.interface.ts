@@ -1,7 +1,7 @@
 type Player = string;
 type PlayerCards = {
   id: string;
-  cards: string[];
+  hand: string[];
 };
 
 export interface Table {

@@ -1,8 +1,10 @@
+import Poker from '@creativenull/pokerjs';
 import { Server } from 'socket.io';
 import { Table } from '@interfaces/table.interface';
 import Deck from '@creativenull/deckjs';
 
 const tableIds: Record<string, Table> = {};
+const poker = new Poker();
 
 function sendNewActivity({ io, tableId, data, event = 'new-activity' }): any {
   return io.sockets.in(tableId).emit(event, data);
@@ -31,6 +33,16 @@ function nextPlayer({ io, tableId, playerName, raise = false }) {
   } else {
     tableIds[tableId].cardsShown += 1;
     if (tableIds[tableId].cardsShown == 6) {
+      console.log('Displayed all the cards, winner:');
+      const winner = poker.winner(
+        tableIds[tableId].playerCards.map(data => {
+          return {
+            id: data.id,
+            hand: Deck.parse(data.hand),
+          };
+        }),
+      );
+      console.log(winner);
       return sendNewActivity({
         io: io,
         tableId: tableId,
@@ -91,7 +103,7 @@ function handleSocketIo_(io: Server) {
       socket.emit('your-cards', playerCards);
       tableIds[tableId].playerCards.push({
         id: playerName,
-        cards: playerCards.concat(tableIds[tableId].cards),
+        hand: playerCards.concat(tableIds[tableId].cards),
       });
 
       // Allows the client to get all the usernames connected to the table
