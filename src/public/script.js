@@ -3,6 +3,7 @@ var raisedAmountByOtherUser = 0;
 var myTurn = false;
 var cardsToDisplay = [];
 var myCards = [];
+var raisedCard = false;
 
 const socket = io('/');
 const players = document.getElementById('players');
@@ -64,6 +65,7 @@ raiseBtn.onclick = () => {
   balanceDisplayed.innerText = balance;
   // Allows the user to raise the bet
   socket.emit('raise', raisedAmount, playerName);
+  raisedCard = true;
   disableButtons();
 };
 
@@ -129,6 +131,10 @@ socket.on('pot-change', newAmount => {
 
 // Checks whether it's current user's turn
 socket.on('next-player-turn', _playerName => {
+  if (raisedCard) {
+    raisedCard = false;
+    return;
+  }
   myTurn = _playerName === playerName;
   return disableButtons(!myTurn);
 });
