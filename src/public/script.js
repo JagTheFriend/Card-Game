@@ -52,6 +52,10 @@ slider.onchange = data => {
   raiseBtn.innerText = `Raise by ${slider.value}`;
 };
 
+balanceDisplayed.onchange = data => {
+  slider.max = balanceDisplayed.innerText;
+};
+
 socket.emit('room-join', TABLE_ID, playerName);
 addElementIntoList(players, playerName);
 
