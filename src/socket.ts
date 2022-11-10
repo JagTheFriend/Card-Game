@@ -168,6 +168,20 @@ function handleSocketIo_(io: Server) {
         });
       });
 
+      // User matched the bet (amount raised)
+      socket.on('check', playerName => {
+        sendNewActivity({
+          io: io,
+          tableId: tableId,
+          data: `${playerName} checked`,
+        });
+        return nextPlayer({
+          io: io,
+          tableId: tableId,
+          playerName: playerName,
+        });
+      });
+
       // User folded
       socket.on('fold', playerName => {
         sendNewActivity({

@@ -11,6 +11,7 @@ const activityChat = document.getElementById('activityChat');
 const table = document.getElementById('table');
 const pot = document.getElementById('pot');
 const balanceDisplayed = document.getElementById('balance');
+const matchOrCheck = document.getElementById('matchOrCheck');
 balanceDisplayed.innerText = balance;
 
 // The selector for cards
@@ -76,6 +77,10 @@ raiseBtn.onclick = () => {
 };
 
 matchBtn.onclick = () => {
+  if (matchOrCheck.innerText == 'Match') {
+    return socket.emit('check', playerName);
+  }
+
   if (balance == 0) {
     return socket.emit('next-player', playerName);
   }
@@ -122,7 +127,7 @@ socket.on('all-players', receivedPlayerNames => {
 socket.on('raise', amount => {
   raisedAmountByOtherUser = amount;
   raisedCard = false;
-  document.getElementById('matchOrCheck').innerText = 'Match';
+  matchOrCheck.innerText = 'Match';
   document.getElementById('matchAmount').innerText = amount;
 });
 
@@ -170,7 +175,7 @@ socket.on('display-next-card', () => {
     hiddenCards[1].src = `/cards/${getImage(card)}`;
   }
   raisedCard = false;
-  document.getElementById('matchOrCheck').innerText = 'Check';
+  matchOrCheck.innerText = 'Check';
 });
 
 socket.on('send-cards', () => {
