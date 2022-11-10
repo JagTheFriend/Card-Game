@@ -12,6 +12,8 @@ const table = document.getElementById('table');
 const pot = document.getElementById('pot');
 const balanceDisplayed = document.getElementById('balance');
 const matchOrCheck = document.getElementById('matchOrCheck');
+const matchAmount = document.getElementById('matchAmount');
+
 balanceDisplayed.innerText = balance;
 
 // The selector for cards
@@ -128,7 +130,7 @@ socket.on('raise', amount => {
   raisedAmountByOtherUser = amount;
   raisedCard = false;
   matchOrCheck.innerText = 'Match';
-  document.getElementById('matchAmount').innerText = amount;
+  matchAmount.innerText = amount;
 });
 
 // Don't show the start button if the current user is not the creator
@@ -176,6 +178,7 @@ socket.on('display-next-card', () => {
   }
   raisedCard = false;
   matchOrCheck.innerText = 'Check';
+  matchAmount.innerText = '';
 });
 
 socket.on('send-cards', () => {
