@@ -122,6 +122,7 @@ socket.on('all-players', receivedPlayerNames => {
 socket.on('raise', amount => {
   raisedAmountByOtherUser = amount;
   raisedCard = false;
+  document.getElementById('matchOrCheck').innerText = 'Match';
   document.getElementById('matchAmount').innerText = amount;
 });
 
@@ -169,6 +170,7 @@ socket.on('display-next-card', () => {
     hiddenCards[1].src = `/cards/${getImage(card)}`;
   }
   raisedCard = false;
+  document.getElementById('matchOrCheck').innerText = 'Check';
 });
 
 socket.on('send-cards', () => {
