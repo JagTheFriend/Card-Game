@@ -121,6 +121,7 @@ socket.on('all-players', receivedPlayerNames => {
 // Runs when a user raises the amount
 socket.on('raise', amount => {
   raisedAmountByOtherUser = amount;
+  raisedCard = false;
   document.getElementById('matchAmount').innerText = amount;
 });
 
@@ -137,9 +138,9 @@ socket.on('pot-change', newAmount => {
 
 // Checks whether it's current user's turn
 socket.on('next-player-turn', _playerName => {
-  if (raisedCard) {
+  if (_playerName === playerName && raisedCard) {
     raisedCard = false;
-    return;
+    return socket.emit('next-player', playerName);
   }
   myTurn = _playerName === playerName;
   return disableButtons(!myTurn);
@@ -167,6 +168,7 @@ socket.on('display-next-card', () => {
     const card = cardsToDisplay[cardsToDisplay.length - 1];
     hiddenCards[1].src = `/cards/${getImage(card)}`;
   }
+  raisedCard = false;
 });
 
 socket.on('send-cards', () => {
