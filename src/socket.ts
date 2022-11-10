@@ -33,7 +33,6 @@ function nextPlayer({ io, tableId, playerName, raise = false }) {
   } else {
     tableIds[tableId].cardsShown += 1;
     if (tableIds[tableId].cardsShown == 6) {
-      console.log('Displayed all the cards, winner:');
       const winner = poker.winner(
         tableIds[tableId].playerCards.map(data => {
           return {
@@ -41,13 +40,18 @@ function nextPlayer({ io, tableId, playerName, raise = false }) {
             hand: Deck.parse(data.hand),
           };
         }),
-      );
-      console.log(winner);
-      return sendNewActivity({
+      )[0]['id'];
+      sendNewActivity({
         io: io,
         tableId: tableId,
         data: null,
         event: 'send-cards',
+      });
+      return sendNewActivity({
+        io: io,
+        tableId: tableId,
+        data: winner,
+        event: 'winner',
       });
     }
 

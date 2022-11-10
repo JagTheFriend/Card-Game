@@ -139,6 +139,11 @@ socket.on('remove-start-game', () => {
   return disableButtons();
 });
 
+socket.on('winner', _playerName => {
+  document.getElementById('startBtnDiv').innerHTML = `<h3>${_playerName} won!</h3>`;
+  alert(`${_playerName} won!`);
+});
+
 // Display the change in Pot
 socket.on('pot-change', newAmount => {
   pot.innerText = newAmount;
