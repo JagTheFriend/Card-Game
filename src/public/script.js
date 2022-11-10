@@ -77,7 +77,7 @@ raiseBtn.onclick = () => {
 };
 
 matchBtn.onclick = () => {
-  if (matchOrCheck.innerText == 'Match') {
+  if (matchOrCheck.innerText == 'Check') {
     return socket.emit('check', playerName);
   }
 
