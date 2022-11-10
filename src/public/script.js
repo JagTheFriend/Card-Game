@@ -18,6 +18,9 @@ const hiddenCards = document.getElementsByClassName('hiddenCards');
 const displayedCard = document.getElementsByClassName('displayedCard');
 const userDisplayedCard = document.getElementsByClassName('userDisplayedCard');
 
+// Selector for the slider
+const slider = document.getElementById('raiseAmount');
+
 // All the buttons
 const raiseBtn = document.getElementById('raiseBtn');
 const matchBtn = document.getElementById('matchBtn');
@@ -45,8 +48,12 @@ function getImage(card) {
   return `${data.slice(0, -1)}-${data.slice(-1)}.png`;
 }
 
-document.getElementById('raiseAmount').onchange = data => {
-  raiseBtn.innerText = `Raise by ${document.getElementById('raiseAmount').value}`;
+slider.onchange = data => {
+  raiseBtn.innerText = `Raise by ${slider.value}`;
+};
+
+balanceDisplayed.onchange = data => {
+  slider.max = balanceDisplayed.innerText;
 };
 
 socket.emit('room-join', TABLE_ID, playerName);
@@ -57,8 +64,7 @@ raiseBtn.onclick = () => {
     return socket.emit('next-player', playerName);
   }
 
-  const raisedAmount =
-    parseInt(document.getElementById('raiseAmount').value) <= balance ? parseInt(document.getElementById('raiseAmount').value) : balance;
+  const raisedAmount = parseInt(slider.value) <= balance ? parseInt(slider.value) : balance;
   // decrease balance
   const total = raisedAmount + raisedAmountByOtherUser;
   balance = total <= balance ? balance - total : 0;
