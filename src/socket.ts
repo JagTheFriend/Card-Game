@@ -41,6 +41,14 @@ function nextPlayer({ io, tableId, playerName, raise = false }) {
           };
         }),
       )[0]['id'];
+      tableIds[tableId] = {
+        players: [],
+        pot: 0,
+        amountRaised: 0,
+        cards: Deck.stringify(new Deck(true).getCards(5)),
+        cardsShown: 3,
+        playerCards: [],
+      };
       sendNewActivity({
         io: io,
         tableId: tableId,
