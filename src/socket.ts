@@ -201,11 +201,14 @@ function handleSocketIo_(io: Server) {
           tableId: tableId,
           data: `${playerName} folded`,
         });
-        return nextPlayer({
+        nextPlayer({
           io: io,
           tableId: tableId,
           playerName: playerName,
         });
+        const index = tableIds[tableId].players.indexOf(playerName);
+        tableIds[tableId].players.splice(index, 1);
+        tableIds[tableId].playerCards.splice(index, 1);
       });
 
       // User's balance is 0, so go to the next user
